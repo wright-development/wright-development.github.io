@@ -1,1 +1,0 @@
-# wright-development.github.io
