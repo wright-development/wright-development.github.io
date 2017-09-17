@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker Compose on Wright Development</title>
+    <link>https://wright-development.github.io/tags/docker-compose/</link>
+    <description>Recent content in Docker Compose on Wright Development</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 16 Sep 2017 13:39:28 -0600</lastBuildDate>
+    
+	<atom:link href="https://wright-development.github.io/tags/docker-compose/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dotnet Core Integration Testing</title>
+      <link>https://wright-development.github.io/posts/dotnet-core-docker/</link>
+      <pubDate>Sat, 16 Sep 2017 13:39:28 -0600</pubDate>
+      
+      <guid>https://wright-development.github.io/posts/dotnet-core-docker/</guid>
+      <description>Recently at work, we have been discussing how to perform integration tests on dotnet core services. From previous experience, integration testing can be quite a messy process especially when performing reads and writes to a database. So, how do we test that our service can communicate with outside resources i.e. (databases, etc), without giving false failures and maintain consistent results? I&amp;rsquo;m sure that most of you have guessed by now we are going to use docker to create isolated integration tests.</description>
+    </item>
+    
+  </channel>
+</rss>

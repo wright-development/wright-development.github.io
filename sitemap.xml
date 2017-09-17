@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://wright-development.github.io/posts/dotnet-core-docker/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/tags/docker/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/tags/docker-compose/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/tags/dotnet/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/tags/dotnet-core/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/tags/integration-test/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/tags/mysql/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/posts/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/tags/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/tags/testing/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/tags/web-service/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wright-development.github.io/</loc>
+    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

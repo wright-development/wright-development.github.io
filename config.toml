@@ -1,0 +1,12 @@
+baseURL = "https://wright-development.github.io/"
+languageCode = "en-us"
+title = "Wright Development"
+theme = "amp"
+
+[params]
+    description = "Developing the Wright way"
+
+[params.author]
+    firstName = "Darrius"
+    lastName = "Wright"
+    gender = "male"
