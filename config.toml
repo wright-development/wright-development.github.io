@@ -10,3 +10,7 @@ theme = "amp"
     firstName = "Darrius"
     lastName = "Wright"
     gender = "male"
+
+[social]
+  github = "wright-development"
+  linkedin = "darrius-wright"

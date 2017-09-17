@@ -82,25 +82,33 @@
                 <section class="www-component-desc">
                 
 
-<p>Recently at work, we have been discussing how to perform integration tests on dotnet core services. From previous experience, integration testing can be quite a messy process especially when performing reads and writes to a database.
+<p>Recently at work, we have been discussing how to perform integration tests on .NET Core services. From previous experience, integration testing can be quite a messy process especially when performing reads and writes to a database. Have you ever had an issue with maintaining consistently correct data? Sharing a database with multiple developers? Or even setting up your own data without interfering with your teammates? If any of these problems sound familiar then docker can be the solution for you.
 <br>
 <br>
-So, how do we test that our service can communicate with outside resources i.e. (databases, etc), without giving false failures and maintain consistent results?
-<br>
-<br>
-I&rsquo;m sure that most of you have guessed by now we are going to use <strong>docker</strong> to create isolated integration tests. More specifically we are going to create a docker compose that can spin up the necessary resources and run the integration tests. Simple enough? Alright, let&rsquo;s jump into it.
-<br>
-<br></p>
+Docker provides a great way for you to stand up services, databases, and etc locally through containers. In addition with docker compose we can set up multiple containers and define the interactions between them. For example, we can start our service, and have it communicate with a container running a MySQL database.</p>
 
-<p><strong>Tools Needed: docker, dotnet cli</strong>
-<br>
-<br>
-<strong><a href="https://github.com/wright-development/dotnet-docker-integration-testing">Source Code</a></strong>
-<br></p>
+<p><br></p>
 
 <h2 id="setting-up-the-project">Setting up the project</h2>
 
-<p>Before working with docker we need to set up the project structure for the application. Feel free to set up the project using the dotnet cli, visual studio, or any other means. Once you set up the project up it should be in the following format&hellip;</p>
+<p>This post assumes that you have some experience with using Docker, .NET Core, and writing tests. If not, check out the links below for additional help.</p>
+
+<ul>
+<li><a href="https://docs.docker.com/get-started/#conclusion">Docker Getting Started</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/core/get-started">.NET Core Getting Started</a></li>
+<li><a href="https://xunit.github.io/docs/getting-started-desktop.html#write-first-tests">XUnit writing your first test</a>
+<br>
+<br>
+<strong>Tools Needed: docker, dotnet cli</strong>
+<br>
+<strong><a href="https://github.com/wright-development/dotnet-docker-integration-testing">Source Code</a></strong>
+<br></li>
+</ul>
+
+<p>Before working with docker we need to set up the project structure, install the packages that we need, create some code to test and create an integration test to run. So let&rsquo;s get started!
+<br>
+<br>
+Feel free to set up the project using the dotnet cli, visual studio, or any other means. Once you set up the project up it should be in the following format&hellip;</p>
 
 <pre>
 TodoService/
@@ -117,7 +125,7 @@ TodoService/
 <strong>Check out the <a href="https://github.com/wright-development/dotnet-docker-integration-testing">source code</a> for more clarification.</strong>
 <br>
 <br>
-Now that the project has been setup we will need to install the packages needed to run the project.</p>
+Now that the service and test projects have been set up we will need to install the following packages to run each project.</p>
 
 <ul>
 <li>TodoService
@@ -136,14 +144,14 @@ Now that the project has been setup we will need to install the packages needed 
 <li>Dapper@1.50.2</li>
 <li>MySql.Data.Core@7.0.4-ir-19</li>
 <li>Newtonsoft.JSON@10.0.3</li>
-<li>Shouldly@2.8.3 (Optional, if you would rather use a different assertion framework)
-<br>
-<br>
-Next up we need to get some code! All of the service&rsquo;s logic is located in the Todo controller just to help with understanding, feel free to separate logic as you see fit.
-<br>
-<br></li>
+<li>Shouldly@2.8.3 (Optional, if you would rather use a different assertion framework)</li>
 </ul></li>
 </ul>
+
+<p><br>
+Next up we need to get some code! All of the service&rsquo;s logic is located in the Todo controller just to help with understanding, feel free to separate logic as you see fit.
+<br>
+<br></p>
 
 <pre><code class="language-csharp">// *********************************************
 // src/TodoService/Controllers/TodoController.cs
@@ -194,43 +202,13 @@ namespace TodoService.Controllers
                 return connection.Query&lt;TodoModel&gt;(&quot;SELECT id,checked,text FROM todo WHERE id=@Id&quot;, new {Id=id}).FirstOrDefault();
             }
         }
-
-
-        [HttpGet]
-        public IEnumerable&lt;TodoModel&gt; Get()
-        {
-            using(var connection = new MySqlConnection(_connectionString))
-            {
-                return connection.Query&lt;TodoModel&gt;(&quot;SELECT id,checked,text FROM todo&quot;);
-            }
-        }
-
-        [HttpPut]
-        public void Put([FromBody]TodoModel model)
-        {
-            using(var connection = new MySqlConnection(_connectionString))
-            {
-                connection.Execute(@&quot;UPDATE todo SET checked = @Checked, text = @Text WHERE id=@Id&quot;, model);
-            }
-        }
-
-        [HttpDelete(&quot;{id}&quot;)]
-        public TodoModel Delete(string id)
-        {
-            var modelToDelete = Get(id);
-            using(var connection = new MySqlConnection(_connectionString))
-            {
-                connection.Execute(&quot;DELETE FROM todo WHERE id=@Id&quot;, new {Id = id});
-            }
-            return modelToDelete;
-        }        
     }
 }
 </code></pre>
 
-<p><br>
+<p>Now let&rsquo;s add an integration test.
 <br>
-And don&rsquo;t forget some tests.</p>
+<br></p>
 
 <pre><code class="language-csharp">
 //***************************************
@@ -252,17 +230,6 @@ namespace TodoService.IntegrationTests
         }
         
         [Fact]
-        public async void should_return_ok_on_post()
-        {
-            var client = new HttpClient();
-            var todo = new TodoModel{ Checked = false, Text = &quot;Test Text&quot; };
-            var result = await client.PostAsync(_url, new StringContent(JsonConvert.SerializeObject(todo), Encoding.UTF8, &quot;application/json&quot;));
-
-            result.StatusCode.ShouldBe(HttpStatusCode.OK);
-       
-        }
-
-        [Fact]
         public async void should_assign_id_on_post()
         {
             var client = new HttpClient();
@@ -276,29 +243,12 @@ namespace TodoService.IntegrationTests
             actualModel.Id.ShouldNotBeEmpty();
         }
 
-        [Fact]
-        public async void should_add_to_database_on_post()
-        {
-            var client = new HttpClient();
-            var todo = new TodoModel{ Checked = false, Text = &quot;Test Text&quot; };
-            
-            var result = await client.PostAsync(_url, new StringContent(JsonConvert.SerializeObject(todo),Encoding.UTF8, &quot;application/json&quot;));
-            var expectedModel = JsonConvert.DeserializeObject&lt;TodoModel&gt;(await result.Content.ReadAsStringAsync());
-
-            var response = await client.GetAsync($&quot;{_url}/{expectedModel.Id}&quot;);
-            var actualModel = JsonConvert.DeserializeObject&lt;TodoModel&gt;(await result.Content.ReadAsStringAsync());
-            
-            actualModel.Id.ShouldBe(expectedModel.Id);
-            actualModel.Text.ShouldBe(expectedModel.Text);
-        }
-
         public void Dispose()
         {
             using(var connection = new MySqlConnection(_connectionString))
             {
                 //Clear the data after each test
                 connection.Execute(&quot;truncate todo&quot;);
-                //Scary right?                
             }
         }
     }
@@ -325,17 +275,20 @@ CREATE TABLE IF NOT EXISTS todo (id SERIAL, text VARCHAR(100), checked BOOLEAN)
 There are a few docker files needed to run our integration tests.</p>
 
 <ol>
-<li>Dockerfile - This will be used to build, publish the service&rsquo;s content, and copy the published content into a container.</li>
-<li>Dockerfile.integration - This will be used to restore the integration test, project getting it ready to run the tests.</li>
+<li>Dockerfile - This will be used to build the service, publish the service&rsquo;s content, and copy the published content into a container.</li>
+<li>Dockerfile.integration - This will be used to build and restore the integration test project, getting it ready to run the tests.</li>
 <li>docker-compose-integration.xml - Used stand up our MySql database, Todo service, and run our integration tests against the service.</li>
 </ol>
 
 <h3 id="dockerfile">Dockerfile</h3>
 
 <p><br>
-For the <strong>Dockerfile</strong> we are going to use <a href="https://docs.docker.com/engine/userguide/eng-image/multistage-build/">multi stage builds</a> to both build and publish our service into an image.</p>
+For the <strong>Dockerfile</strong> we are going to use <a href="https://docs.docker.com/engine/userguide/eng-image/multistage-build/">multi stage builds</a> to both build and publish our service into an image.
+<br>
+<br></p>
 
-<pre><code class="language-Dockerfile">FROM microsoft/dotnet:1.1.2-sdk as builder
+<pre><code class="language-Dockerfile"># /Dockerfile
+FROM microsoft/dotnet:1.1.2-sdk as builder
 COPY . /code
 WORKDIR /code/src/TodoService
 RUN dotnet restore &amp;&amp; dotnet publish -c Release -o publish
@@ -350,18 +303,24 @@ RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for
 ENTRYPOINT [ &quot;dotnet&quot;, &quot;/app/TodoService.dll&quot; ]
 </code></pre>
 
-<p>Next up is the <strong>Dockerfile.integration</strong> file. Fairly simple we copy the solution&rsquo;s code over and run a restore in the integration test directory.</p>
+<p>Next up is the <strong>Dockerfile.integration</strong> file. Fairly simple we copy the solution&rsquo;s code over and run a restore in the integration test directory.
+<br>
+<br></p>
 
-<pre><code class="language-Dockerfile">FROM microsoft/dotnet:1.1.2-sdk as builder
+<pre><code class="language-Dockerfile"># /Dockerfile.integration
+FROM microsoft/dotnet:1.1.2-sdk as builder
 COPY . /app
 WORKDIR /app/test/TodoService.IntegrationTests
-RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh &gt; /app/wait_for_it.sh
-RUN dotnet restore
+RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh &gt; /app/wait_for_it.sh \
+    &amp;&amp; dotnet restore
 </code></pre>
 
-<p>Last but not least our <strong>docker-compose-integration.yml</strong> file.</p>
+<p>Last but not least our <strong>docker-compose-integration.yml</strong> file.
+<br>
+<br></p>
 
-<pre><code class="language-yaml">version: '3'
+<pre><code class="language-yaml"># /docker-compose-integration.yml
+version: '3'
 
 services:
   integration:
@@ -374,6 +333,7 @@ services:
     entrypoint: bash /app/wait_for_it.sh web:5000 -t 0 -- dotnet test
     depends_on:
       - web
+      - db
   web:
     build: .
     ports: 
@@ -398,16 +358,16 @@ services:
 
 </code></pre>
 
-<p>Great! All the files that we need have been set up. Are you ready to run some tests? Find your nearest terminal that supports Docker, cd to the <strong>docker-compose-integration.yml</strong> file, and run the following command.</p>
+<p>Great! All the files that we need have been set up. Are you ready to run some tests? Find your nearest terminal that supports Docker, cd to the folder that contains the <strong>docker-compose-integration.yml</strong> file, and run the following command.
+<br>
+<br></p>
 
 <pre><code class="language-bash">docker-compose -f docker-compose-integration.yml up
 </code></pre>
 
-<p><br>
-And watch all your hard work pay off with the success of your integration tests.
+<p><strong>Personally I like to run the following command, this will stop the compose after the integration tests have completed. In addition, it will rebuild your images before starting the containers.</strong>
 <br>
-<br>
-<strong>Personally I like to run the following command, this will stop the compose after the integration tests finish off. In addition, it will rebuild your images before starting the containers.</strong></p>
+<br></p>
 
 <pre><code class="language-bash">docker-compose -f docker-compose-integration.yml up --build --abort-on-container-exit
 </code></pre>
@@ -421,6 +381,26 @@ And watch all your hard work pay off with the success of your integration tests.
     </amp-selector>
     
     <footer class="ampstart-footer flex flex-column items-center pxy3">
+        
+        <ul class="ampstart-social-follow list-reset flex justify-around items-center flex-wrap m0 mb4">
+          
+              <li class="mr2">
+                <a href="https://github.com/wright-development" class="inline-block">
+                    <amp-img src="/img/github.svg" width="24" height="24"></amp-img>        
+                </a>
+              </li>
+          
+          
+          
+          
+          
+              <li class="mr2">
+                <a href="https://www.linkedin.com/in/darrius-wright" class="inline-block">
+                    <amp-img src="/img/linkedin.svg" width="24" height="24"></amp-img>        
+                </a>
+              </li>
+            
+        </ul>
         
  
         <small> powered by <a href="http://gohugo.io" target="_blank">hugo</a> theme <a href="https://github.com/pdevty/amp" target="_blank">amp</a> designed by <a href="http://pdevty.github.io" target="_blank">pdevty</a></small>

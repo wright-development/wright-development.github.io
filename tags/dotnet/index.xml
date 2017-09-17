@@ -17,7 +17,7 @@
       <pubDate>Sat, 16 Sep 2017 13:39:28 -0600</pubDate>
       
       <guid>https://wright-development.github.io/posts/using-docker-for-net-core/</guid>
-      <description>Recently at work, we have been discussing how to perform integration tests on dotnet core services. From previous experience, integration testing can be quite a messy process especially when performing reads and writes to a database. So, how do we test that our service can communicate with outside resources i.e. (databases, etc), without giving false failures and maintain consistent results? I&amp;rsquo;m sure that most of you have guessed by now we are going to use docker to create isolated integration tests.</description>
+      <description>Recently at work, we have been discussing how to perform integration tests on .NET Core services. From previous experience, integration testing can be quite a messy process especially when performing reads and writes to a database. Have you ever had an issue with maintaining consistently correct data? Sharing a database with multiple developers? Or even setting up your own data without interfering with your teammates? If any of these problems sound familiar then docker can be the solution for you.</description>
     </item>
     
   </channel>
