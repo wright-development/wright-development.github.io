@@ -407,6 +407,25 @@ services:
     </footer>
     
     
+    <amp-analytics type="googleanalytics" id="analytics">
+        <script type="application/json">
+        {
+            "vars": {
+                "account": "UA-61721549-2"
+            },
+            "triggers": {
+                "default pageview": {
+                    "on": "visible",
+                    "request": "pageview",
+                    "vars": {
+                        "title": "Using Docker for .NET Core Integration Testing"
+                    }
+                }
+            }
+        }
+        </script>
+    </amp-analytics>
+    
     
 </body>
 
