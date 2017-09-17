@@ -14,3 +14,8 @@ theme = "amp"
 [social]
   github = "wright-development"
   linkedin = "darrius-wright"
+
+[[menu.main]]
+    name = "Contact Me"
+    identifier = "contact-me"
+    url = "/contact-me/"

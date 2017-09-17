@@ -8,11 +8,11 @@ tags: ["docker", "docker compose", "dotnet", "dotnet core", "web service", "test
 Recently at work, we have been discussing how to perform integration tests on .NET Core services. From previous experience, integration testing can be quite a messy process especially when performing reads and writes to a database. Have you ever had an issue with maintaining consistently correct data? Sharing a database with multiple developers? Or even setting up your own data without interfering with your teammates? If any of these problems sound familiar then docker can be the solution for you.
 <br>
 <br>
-Docker provides a great way for you to stand up services, databases, and etc locally through containers. In addition with docker compose we can set up multiple containers and define the interactions between them. For example, we can start our service, and have it communicate with a container running a MySQL database.
+Docker provides a great way for you to stand up services, databases, and other resources locally through containers. In addition, with docker compose, we can set up multiple containers and define the interactions between them. For example, we can start our service and have it communicate with a container running a MySQL database.
 
 <br>
 ## Setting up the project
-This post assumes that you have some experience with using Docker, .NET Core, and writing tests. If not, check out the links below for additional help. 
+This post assumes that you have some experience with using Docker, .NET Core, and writing tests with XUnit. If not, check out the links below for additional help. 
 
 * [Docker Getting Started](https://docs.docker.com/get-started/#conclusion)
 * [.NET Core Getting Started](https://docs.microsoft.com/en-us/dotnet/core/get-started)
@@ -24,10 +24,10 @@ This post assumes that you have some experience with using Docker, .NET Core, an
 **[Source Code](https://github.com/wright-development/dotnet-docker-integration-testing)**
 <br>
 
-Before working with docker we need to set up the project structure, install the packages that we need, create some code to test and create an integration test to run. So let's get started!
+Before working with docker, we need to set up the project structure, install the packages that we need, create some code to test and create an integration test to run. So let's get started!
 <br>
 <br>
-Feel free to set up the project using the dotnet cli, visual studio, or any other means. Once you set up the project up it should be in the following format...
+Feel free to set up the project using the dotnet cli, Visual Studio, or any other means. Be sure to set the project up in the following format.
 
 <pre>
 TodoService/
@@ -41,10 +41,11 @@ TodoService/
 </pre>
 
 The TodoService is a WebAPI project **(Target Framework netcoreapp1.1)**, and the TodoService.Integration.Tests project is a XUnit test project **(Target Framework netcoreapp1.1)**.
+<br>
 **Check out the [source code](https://github.com/wright-development/dotnet-docker-integration-testing) for more clarification.**
 <br>
 <br>
-Now that the service and test projects have been set up we will need to install the following packages to run each project.
+Now that the service and test projects have been set up, we will need to install the following packages.
 
 - TodoService
     - Dapper@1.50.2
@@ -57,10 +58,10 @@ Now that the service and test projects have been set up we will need to install 
     - Dapper@1.50.2
     - MySql.Data.Core@7.0.4-ir-19
     - Newtonsoft.JSON@10.0.3
-    - Shouldly@2.8.3 (Optional, if you would rather use a different assertion framework)
+    - Shouldly@2.8.3 (Or a different assertion framework.)
 
 <br>
-Next up we need to get some code! All of the service's logic is located in the Todo controller just to help with understanding, feel free to separate logic as you see fit.
+Next up, we need to implement the TodoController.
 <br>
 <br>
 
@@ -166,7 +167,7 @@ namespace TodoService.IntegrationTests
 }
 ```
 
-Finally, we need to add a SQL script that will be executed against the MySql database once it starts up. This will be located in the **Scripts** folder at the root of the solution.
+Finally, we need table to store the todos that will be created by the application. This SQL script will be located in the **Scripts** folder at the root of the solution.
 
 ``` sql
 # /Scripts/InitialSchema.sql
@@ -175,7 +176,7 @@ USE todosdb;
 CREATE TABLE IF NOT EXISTS todo (id SERIAL, text VARCHAR(100), checked BOOLEAN)
 ```
 
-Alright, now that all of the code has been set up let's write up some docker files. **All of the docker files will be located at the root of the solution (/TodoService).**
+Alright, now that the project has been set up let's write up some docker files. **All of the docker files will be located at the root of the solution (/TodoService).**
 <br>
 <br>
 ## Docker Setup
@@ -187,7 +188,7 @@ There are a few docker files needed to run our integration tests.
 
 1. Dockerfile - This will be used to build the service, publish the service's content, and copy the published content into a container.
 2. Dockerfile.integration - This will be used to build and restore the integration test project, getting it ready to run the tests.
-3. docker-compose-integration.xml - Used stand up our MySql database, Todo service, and run our integration tests against the service.
+3. docker-compose-integration.xml - This will be used to stand up our MySql database, Todo service, and run our integration tests against the service.
 
 ### Dockerfile
 <br>
@@ -211,7 +212,7 @@ RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for
 ENTRYPOINT [ "dotnet", "/app/TodoService.dll" ]
 ```
 
-Next up is the **Dockerfile.integration** file. Fairly simple we copy the solution's code over and run a restore in the integration test directory.
+Next up is the **Dockerfile.integration** file. This is fairly simple. We copy the solution's code over and run a restore in the integration test directory.
 <br>
 <br>
 ``` Dockerfile
@@ -223,7 +224,7 @@ RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for
     && dotnet restore
 ```
 
-Last but not least our **docker-compose-integration.yml** file.
+Last but not least, we need our **docker-compose-integration.yml** file.
 <br>
 <br>
 ``` yaml
@@ -272,9 +273,10 @@ Great! All the files that we need have been set up. Are you ready to run some te
 ``` bash 
 docker-compose -f docker-compose-integration.yml up
 ```
-**Personally I like to run the following command, this will stop the compose after the integration tests have completed. In addition, it will rebuild your images before starting the containers.**
-<br>
-<br>
+**Personally, I like to run the following command:
 ``` bash 
 docker-compose -f docker-compose-integration.yml up --build --abort-on-container-exit
-```
+``` 
+this will stop the docker compose after the integration tests have completed. In addition, it will rebuild your images before starting the containers.**
+<br>
+<br>
