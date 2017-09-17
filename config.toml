@@ -5,7 +5,7 @@ theme = "amp"
 
 [params]
     description = "Developing the Wright way"
-
+    googleanalytics = "UA-61721549-2"
 [params.author]
     firstName = "Darrius"
     lastName = "Wright"
