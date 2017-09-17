@@ -1,5 +1,5 @@
 ---
-title: "Dotnet Core Integration Testing"
+title: "Using Docker for .NET Core Integration Testing"
 date: 2017-09-16T13:39:28-06:00
 draft: false
 tags: ["docker", "docker compose", "dotnet", "dotnet core", "web service", "testing", "integration test", "MySql"]
