@@ -5,7 +5,10 @@ draft: false
 tags: ["docker", "docker compose", "dotnet", "dotnet core", "web service", "testing", "integration test", "MySql"]
 ---
 
-Recently at work, we have been discussing how to perform integration tests on .NET Core services. From previous experience, integration testing can be quite a messy process especially when performing reads and writes to a database. Have you ever had an issue with maintaining consistently correct data? Sharing a database with multiple developers? Or even setting up your own data without interfering with your teammates? If any of these problems sound familiar then docker can be the solution for you.
+Recently at work, we have been discussing how to perform integration tests on .NET Core services. From previous experience, integration testing can be quite a messy process especially when performing reads and writes to a database. 
+<br>
+<br>
+Have you ever had an issue with maintaining consistently correct data? Sharing a database with multiple developers? Or even setting up your own data without interfering with your teammates? If any of these problems sound familiar then docker can be the solution for you.
 <br>
 <br>
 Docker provides a great way for you to stand up services, databases, and other resources locally through containers. In addition, with docker compose, we can set up multiple containers and define the interactions between them. For example, we can start our service and have it communicate with a container running a MySQL database.
@@ -195,7 +198,7 @@ There are a few docker files needed to run our integration tests.
 For the **Dockerfile** we are going to use [multi stage builds](https://docs.docker.com/engine/userguide/eng-image/multistage-build/) to both build and publish our service into an image.
 <br>
 <br>
-``` Dockerfile
+``` dockerfile
 # /Dockerfile
 FROM microsoft/dotnet:1.1.2-sdk as builder
 COPY . /code
@@ -215,7 +218,7 @@ ENTRYPOINT [ "dotnet", "/app/TodoService.dll" ]
 Next up is the **Dockerfile.integration** file. This is fairly simple. We copy the solution's code over and run a restore in the integration test directory.
 <br>
 <br>
-``` Dockerfile
+``` dockerfile
 # /Dockerfile.integration
 FROM microsoft/dotnet:1.1.2-sdk as builder
 COPY . /app
@@ -227,6 +230,7 @@ RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for
 Last but not least, we need our **docker-compose-integration.yml** file.
 <br>
 <br>
+
 ``` yaml
 # /docker-compose-integration.yml
 version: '3'
