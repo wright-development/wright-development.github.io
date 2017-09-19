@@ -5,6 +5,8 @@ theme = "amp"
 disqusShortname = "https-wright-development-github-io.disqus.com"
 
 [params]
+    amp = true
+    ampElements = ["amp-form"]
     description = "Developing the Wright way"
     googleanalytics = "UA-61721549-2"
 [params.author]

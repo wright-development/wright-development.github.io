@@ -1,4 +1,24 @@
-<form id="comment-form" class="comment-form" method="post" action="https://api.staticman.net/v2/entry/{{ .Site.Params.staticman.username }}/{{ .Site.Params.staticman.repository }}/{{ .Site.Params.staticman.branch }}/">
+<script>
+  function getFormObj(formId) {
+    var formObj = {};
+    var inputs = $('#'+formId).serializeArray();
+    $.each(inputs, function (i, input) {
+        formObj[input.name] = input.value;
+    });
+    return formObj;
+}
+
+  sendRequest = function(url) {
+    $('#comment-form-submit').prop("disabled", true)
+    $.post(url, $('#comment-form').serialize(), ()=>{
+      $('#comment-form-submit').prop("disabled", false)
+      
+      location.reload();
+    });
+  }
+</script>
+
+<form amp-form id="comment-form" class="comment-form" method="post" onsubmit="sendRequest('https://api.staticman.net/v2/entry/{{ .Site.Params.staticman.username }}/{{ .Site.Params.staticman.repository }}/{{ .Site.Params.staticman.branch }}/comments')">
   <label for="comment-form-name">Name</label>
   <input type="text" id="comment-form-name" name="fields[name]" tabindex="2" />
   <label for="comment-form-email">Email address</label>
