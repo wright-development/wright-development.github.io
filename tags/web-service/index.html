@@ -27,6 +27,92 @@
             overflow: hidden !important;
         }    
     </style>
+    <style>
+        pre {
+            overflow: hidden !important;
+        }
+        
+        .comment-form {
+            font: 95% Arial, Helvetica, sans-serif;
+            max-width: 400px;
+            margin: 10px auto;
+            padding: 16px;
+            background: #F7F7F7;
+        }
+
+        .comment-form h1 {
+            background: #02A854;
+            padding: 20px 0;
+            font-size: 140%;
+            font-weight: 300;
+            text-align: center;
+            color: #fff;
+            margin: -16px -16px 16px -16px;
+        }
+
+        .comment-form input[type="text"],
+        .comment-form input[type="date"],
+        .comment-form input[type="datetime"],
+        .comment-form input[type="email"],
+        .comment-form input[type="number"],
+        .comment-form input[type="search"],
+        .comment-form input[type="time"],
+        .comment-form input[type="url"],
+        .comment-form textarea,
+        .comment-form select {
+            -webkit-transition: all 0.30s ease-in-out;
+            -moz-transition: all 0.30s ease-in-out;
+            -ms-transition: all 0.30s ease-in-out;
+            -o-transition: all 0.30s ease-in-out;
+            outline: none;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            width: 100%;
+            background: #fff;
+            margin-bottom: 4%;
+            border: 1px solid #ccc;
+            padding: 3%;
+            color: #555;
+            font: 95% Arial, Helvetica, sans-serif;
+        }
+
+        .comment-form input[type="text"]:focus,
+        .comment-form input[type="date"]:focus,
+        .comment-form input[type="datetime"]:focus,
+        .comment-form input[type="email"]:focus,
+        .comment-form input[type="number"]:focus,
+        .comment-form input[type="search"]:focus,
+        .comment-form input[type="time"]:focus,
+        .comment-form input[type="url"]:focus,
+        .comment-form textarea:focus,
+        .comment-form select:focus {
+            box-shadow: 0 0 5px #02A854;
+            padding: 3%;
+            border: 1px solid #02A854;
+        }
+
+        .comment-form button[type="submit"],
+        .comment-form button[type="button"] {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            width: 100%;
+            padding: 3%;
+            background: #02A854;
+            border-bottom: 2px solid #25B46B;
+            border-top-style: none;
+            border-right-style: none;
+            border-left-style: none;
+            color: #fff;
+        }
+
+        .comment-form button[type="submit"]:hover,
+        .comment-form button[type="button"]:hover {
+            background: #49C285;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -88,7 +174,6 @@
 
                     </div>
                 </section>
-
             </article>
         </main>
     </amp-selector>

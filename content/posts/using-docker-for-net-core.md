@@ -277,10 +277,10 @@ Great! All the files that we need have been set up. Are you ready to run some te
 ``` bash 
 docker-compose -f docker-compose-integration.yml up
 ```
-**Personally, I like to run the following command:
+**Personally, I like to run the following command:**
 ``` bash 
 docker-compose -f docker-compose-integration.yml up --build --abort-on-container-exit
 ``` 
-this will stop the docker compose after the integration tests have completed. In addition, it will rebuild your images before starting the containers.**
+**This will stop the docker compose after the integration tests have completed. In addition, it will rebuild your images before starting the containers.**
 <br>
 <br>
