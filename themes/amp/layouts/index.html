@@ -1,4 +1,5 @@
 {{ partial "header.html" . }}
+
     <header class="www-header">
         <h1 class="mb4 px2 col-12 sm-col-8 mx-auto">{{ .Title }}</h1>
 
@@ -29,6 +30,7 @@
                       {{- range .Data.Pages }}
                         {{ .Render "li" }}
                       {{- end }}
+                      <hr>
                     </div>
                 </section>
             </article>

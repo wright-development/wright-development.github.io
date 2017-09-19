@@ -2,6 +2,7 @@ baseURL = "https://wright-development.github.io/"
 languageCode = "en-us"
 title = "Wright Development"
 theme = "amp"
+disqusShortname = "https-wright-development-github-io.disqus.com"
 
 [params]
     description = "Developing the Wright way"
@@ -14,6 +15,12 @@ theme = "amp"
 [social]
   github = "wright-development"
   linkedin = "darrius-wright"
+
+[params.staticman]
+  endpoint = "https://api.staticman.net/v2/entry/"
+  username = "wright-development"
+  repository = "wright-development.github.io"
+  branch = "master"
 
 [[menu.main]]
     name = "Contact Me"
