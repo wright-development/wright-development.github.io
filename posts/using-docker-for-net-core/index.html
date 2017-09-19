@@ -122,6 +122,90 @@
         }
 
     </style>
+    <style>
+         
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+ 
+.comment-list .row {
+  background: #F7F7F7;
+  padding: 0px 25px;
+  padding-top: 5px;
+  padding-bottom: 15px;
+  margin: 25px 0;
+}
+.comment-list .panel .panel-heading {
+  padding: 4px 15px;
+  position: absolute;
+  border:none;
+   
+  border-top-right-radius:0px;
+  top: 1px;
+}
+.comment-list .panel .panel-heading.right {
+  border-right-width: 0px;
+   
+  border-top-left-radius:0px;
+  right: 16px;
+}
+.comment-list .panel .panel-heading .panel-body {
+  padding-top: 6px;
+}
+.comment-list figcaption {
+   
+  word-wrap: break-word;
+}
+ 
+@media (min-width: 768px) {
+  .comment-list .arrow:after, .comment-list .arrow:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent;
+  }
+  .comment-list .panel.arrow.left:after, .comment-list .panel.arrow.left:before {
+    border-left: 0;
+  }
+   
+   
+  .comment-list .panel.arrow.left:before {
+    left: 0px;
+    top: 30px;
+     
+    border-right-color: inherit;
+    border-width: 16px;
+  }
+   
+  .comment-list .panel.arrow.left:after {
+    left: 1px;
+    top: 31px;
+     
+    border-right-color: #FFFFFF;
+    border-width: 15px;
+  }
+   
+   
+  .comment-list .panel.arrow.right:before {
+    right: -16px;
+    top: 30px;
+     
+    border-left-color: inherit;
+    border-width: 16px;
+  }
+   
+  .comment-list .panel.arrow.right:after {
+    right: -14px;
+    top: 31px;
+     
+    border-left-color: #FFFFFF;
+    border-width: 15px;
+  }
+}
+.comment-list .comment-post {
+  margin-top: 6px;
+}
+    </style>
 </head>
 
 <body>
@@ -490,11 +574,22 @@ services:
 
 
 
+<section class="comment-list">
 
+    
+    
+      <article class="row">
+        <div class="col-md-2 col-sm-2 hidden-xs">
+            <figure class="thumbnail">
+              <figcaption class="text-center"><strong>Darrius Wright</strong><br> 09/18/2017</figcaption>
+            </figure>
+          </div>
+        The first comment
+      </article>
+           
 
+</section>
 
-
-  <p>Hey, be the first to comment on this article.</p>
 
                 <script>
   function getFormObj(formId) {
