@@ -4,9 +4,6 @@
 {{ $entryId := .UniqueID }}
 
 <section class="comment-list">
-  <div>
-    {{ .UniqueID }}
-  </div>
 {{ range $comments }}
   {{ if eq .Name $entryId }}
       {{ $.Scratch.Add "hasComments" 1 }}
