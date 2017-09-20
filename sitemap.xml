@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://wright-development.github.io/contact-me/</loc>
+    <lastmod>2017-09-17T17:16:25-06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://wright-development.github.io/posts/using-docker-for-net-core/</loc>
     <lastmod>2017-09-16T13:39:28-06:00</lastmod>
   </url>
@@ -74,7 +79,7 @@
   
   <url>
     <loc>https://wright-development.github.io/</loc>
-    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <lastmod>2017-09-17T17:16:25-06:00</lastmod>
     <priority>0</priority>
   </url>
   
