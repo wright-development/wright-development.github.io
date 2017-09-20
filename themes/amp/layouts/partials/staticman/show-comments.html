@@ -8,10 +8,9 @@
     {{ .UniqueID }}
   </div>
 {{ range $comments }}
-  <div>{{.Name}}</div>
   {{ if eq .Name $entryId }}
       {{ $.Scratch.Add "hasComments" 1 }}
-      {{ range $index, $comments := (index $.Site.Data.comments ) }}
+      {{ range $index, $comments := (index $.Site.Data.comments $entryId) }}
         <article class="row">
           <div class="col-md-2 col-sm-2 hidden-xs">
               <figure class="thumbnail">
