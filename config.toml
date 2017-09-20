@@ -23,8 +23,3 @@ disqusShortname = "https-wright-development-github-io.disqus.com"
   username = "wright-development"
   repository = "wright-development.github.io"
   branch = "master"
-
-[[menu.main]]
-    name = "Contact Me"
-    identifier = "contact-me"
-    url = "/contact-me/"
