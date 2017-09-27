@@ -8,7 +8,7 @@ tags: ["docker", "docker compose", "dotnet", "dotnet core", "web service", "test
 Recently at work, we have been discussing how to perform integration tests on .NET Core services. From previous experience, integration testing can be quite a messy process especially when performing reads and writes to a database. 
 <br>
 <br>
-Have you ever had an issue with maintaining consistently correct data? Sharing a database with multiple developers? Or even setting up your own data without interfering with your teammates? If any of these problems sound familiar then docker can be the solution for you.
+Have you ever had an issue with maintaining consistently correct data? Sharing a database with multiple developers? Or even setting up your own data without interfering with your teammates? If any of these problems sound familiar, then docker can be the solution for you.
 <br>
 <br>
 Docker provides a great way for you to stand up services, databases, and other resources locally through containers. In addition, with docker compose, we can set up multiple containers and define the interactions between them. For example, we can start our service and have it communicate with a container running a MySQL database.
