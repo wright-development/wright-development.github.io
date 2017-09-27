@@ -7,6 +7,8 @@ addons:
 
 # Build the website
 script:
+  - ls
+  - ls ./binary
   - sudo ./binary/hugo -d .
 
 # Deploy to GitHub pages
