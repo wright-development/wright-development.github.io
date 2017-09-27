@@ -6,7 +6,7 @@ addons:
 
 # Build the website
 script:
-  - ./binaries/hugo -d .
+  - ./binary/hugo -d .
 
 # Deploy to GitHub pages
 deploy:
