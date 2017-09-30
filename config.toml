@@ -17,6 +17,7 @@ disqusShortname = "https-wright-development-github-io.disqus.com"
 [social]
   github = "wright-development"
   linkedin = "darrius-wright"
+  twitter = "develop_wright"
 
 [params.staticman]
   endpoint = "https://api.staticman.net/v2/entry/"
