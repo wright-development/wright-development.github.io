@@ -170,7 +170,7 @@ namespace TodoService.IntegrationTests
 }
 ```
 
-Finally, we need table to store the todos that will be created by the application. This SQL script will be located in the **Scripts** folder at the root of the solution.
+Finally, we need a table to store the todos that will be created by the application. This SQL script will be located in the **Scripts** folder at the root of the solution.
 
 ``` sql
 # /Scripts/InitialSchema.sql
