@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.25.1" />
 
-  <title>Docker Compose &middot; Wright Development</title>
+  <title>API Testing In .NET with Expected.Request &middot; Wright Development</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="Wright Development" href="https://wright-development.github.io/tags/docker-compose/index.xml" />
   
 
   
@@ -282,10 +280,6 @@ margin-top: 6px;
   <ul class="pure-menu-list">
 
     
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://wright-development.github.io/tags/docker-compose/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
-    
 
     
 
@@ -392,20 +386,16 @@ margin-top: 6px;
 
 
 <div class="header">
-  <h1>Docker Compose</h1>
+  <h1>API Testing In .NET with Expected.Request</h1>
+  <h2></h2>
 </div>
-
 <div class="content">
-  
-    <article>
-  <header>
-    <h2><a href="https://wright-development.github.io/post/using-docker-for-net-core/">Using Docker for .NET Core Integration Testing</a></h2>
 
-    <div class="post-meta">
+  <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>16 September 2017</time>
+    <time>05 October 2017</time>
   </div>
 
   
@@ -418,23 +408,15 @@ margin-top: 6px;
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://wright-development.github.io/tags/docker">docker</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://wright-development.github.io/tags/docker-compose">docker compose</a>&nbsp;&#47;
-    
       <a class="post-taxonomy-tag" href="https://wright-development.github.io/tags/dotnet">dotnet</a>&nbsp;&#47;
     
       <a class="post-taxonomy-tag" href="https://wright-development.github.io/tags/dotnet-core">dotnet core</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://wright-development.github.io/tags/web-service">web service</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="https://wright-development.github.io/tags/api-testing">api testing</a>&nbsp;&#47;
     
       <a class="post-taxonomy-tag" href="https://wright-development.github.io/tags/testing">testing</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://wright-development.github.io/tags/integration-testing">integration testing</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://wright-development.github.io/tags/api-testing">api testing</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://wright-development.github.io/tags/mysql">MySql</a>
+      <a class="post-taxonomy-tag" href="https://wright-development.github.io/tags/integration-testing">integration testing</a>
     
   </div>
   
@@ -442,20 +424,184 @@ margin-top: 6px;
 
 </div>
 
-  </header>
+  
 
-  <p>
-  Recently at work, we have been discussing how to perform integration tests on .NET Core services. From previous experience, integration testing can be quite a messy process especially when performing reads and writes to a database. Have you ever had an issue with maintaining consistently correct data? Sharing a database with multiple developers? Or even setting up your own data without interfering with your teammates? If any of these problems sound familiar, then docker can be the solution for you.
-  </p>
+<p>Alright, let&rsquo;s get started with the question that I&rsquo;m sure you are all asking, what is Expected.Request? Simply put it&rsquo;s a Fluent API I&rsquo;ve created to test REST APIs, and even better it&rsquo;s open source! Woot! Expected.Request abstracts away the HttpClient class in favor of clear and cohesive chaining. If you would like to see the full documentation for this package check that out <a href="https://wright-development.github.io/Expected.Request/">here</a>, otherwise let&rsquo;s jump into some examples.</p>
+
+<p><strong>Coincidentally this post ties pretty well into my previous post about integration testing with docker in .NET, if you are interested check it out <a href="https://wright-development.github.io/post/using-docker-for-net-core/">here</a></strong></p>
+
+<h2 id="project-setup">Project Setup</h2>
+
+<p>In order to get started we will need an API to test against, and a test project. If you would like to avoid the setup feel free to download the starting project from <a href="https://github.com/wright-development/expected-request-sample-project/archive/start.zip">here</a>. Otherwise feel free to follow along with your own code.</p>
+
+<p>Once you have downloaded the code, unzip and open the project in your favorite editor.</p>
+
+<p><strong>If you are following along with your own code you will need to install Microsoft.AspNetCore.TestHost@2.0.0 (Optional, if you don&rsquo;t use this package then you will need to provide your own HttpClient, or allow Expected.Request to created it for you.), Newtonsoft.JSON@10.0.3 and Expected.Request@1.0.10</strong></p>
+
+<h2 id="writing-tests">Writing Tests</h2>
+
+<p>Alright now that the project is all set up, let&rsquo;s create a few tests and put Expected.Request to work. We&rsquo;ll start with a simple GET request on the ValuesController.</p>
+
+<p>Without expected request, the code will look something like this&hellip;</p>
+
+<pre><code class="language-csharp">private readonly TestServer _server;
+private readonly HttpClient _client;
+        
+public ValuesControllerTests()
+{
+    _server = new TestServer(new WebHostBuilder()
+        .UseStartup&lt;Startup&gt;());
+    _client = _server.CreateClient();
+}
+
+[Fact]
+public async Task http_client_test()
+{
+    var response = await _client.GetAsync(&quot;/api/values&quot;);
+
+    var status = response.StatusCode;
+    var content = await response.Content.ReadAsStringAsync();
+    var contentObject = JsonConvert.DeserializeObject&lt;IEnumerable&lt;string&gt;&gt;(content);
+
+    Assert.Equal(status, HttpStatusCode.OK);
+    Assert.Equal(contentObject.ElementAt(0), &quot;value1&quot;);
+    Assert.Equal(contentObject.ElementAt(0), &quot;values&quot;);
+}
+</code></pre>
+
+<p>While this code isn&rsquo;t bad, it&rsquo;s easy to see that after a few tests there will be a lot of code duplication. In addition, the code could stand to be clearer, thus enters Expected.Request.</p>
+
+<pre><code class="language-csharp">private readonly TestServer _server;
+private readonly HttpClient _client;
+        
+public ValuesControllerTests()
+{
+    _server = new TestServer(new WebHostBuilder()
+        .UseStartup&lt;Startup&gt;());
+    _client = _server.CreateClient();
+}
+
+[Fact]
+public async Task expected_request_test()
+{
+    await new Request(_client)
+     .Get(&quot;/api/values&quot;)
+     .Next(x =&gt; x.ExpectOk())
+     .Next(x =&gt; x.Expect&lt;IEnumerable&lt;string&gt;&gt;((reponse) =&gt; {
+         Assert.Equal(reponse.ElementAt(0), &quot;value1&quot;);
+         Assert.Equal(reponse.ElementAt(1), &quot;value2&quot;);
+     }))
+     .Done();
+}
+</code></pre>
+
+<p>With the syntax of Expected.Request, we can now read our API test with ease.</p>
+
+<ul>
+<li>Start a new Request</li>
+<li>Perform a Get to the URL &lsquo;/api/values&rsquo;</li>
+<li>Next, expect the status to be ok</li>
+<li>Next, check the content matches my expectations</li>
+<li>Done with the Request</li>
+</ul>
+
+<p>Expected Request shines even more when you want to perform multiple requests, for example after a POST to an API I want to perform a GET to retrieve the object back that I posted.</p>
+
+<pre><code class="language-csharp">[Fact]
+public async Task expected_request_multiple_requests_test()
+{
+    int id = 0;
+
+    await new Request(_client)
+     .Post(&quot;/api/values&quot;, &quot;value&quot;)
+     .Next(x =&gt; x.ExpectOk())
+     .Next(x =&gt; x.Map&lt;int&gt;(model =&gt; id = model))
+     .Next(x =&gt; x.Get($&quot;/api/values/{id}&quot;, _client))
+     .Next(x =&gt; x.ExpectContent(&quot;value&quot;))
+     .Done();
+}
+</code></pre>
+
+<p>Thank you for your time, and consider using <a href="https://wright-development.github.io/Expected.Request">Expected.Request</a> in your next project.</p>
+
+
+  <h3>Comments</h3>
+
+
+
+
+<section class="comment-list">
+
+         
+
+</section>
+
+
+  <p>Hey, be the first to comment on this article.</p>
+
+  <script>
+  function getFormObj(formId) {
+    var formObj = {};
+    var inputs = $('#'+formId).serializeArray();
+    $.each(inputs, function (i, input) {
+        formObj[input.name] = input.value;
+    });
+    return formObj;
+}
+
+  sendRequest = function(url) {
+    $('#comment-form-submit').prop("disabled", true)
+    $.post(url, $('#comment-form').serialize(), ()=>{
+      $('#comment-form-submit').prop("disabled", false)
+      
+      location.reload();
+    });
+  }
+</script>
+
+<form id="comment-form" class="comment-form" method="post" onsubmit="sendRequest('https://api.staticman.net/v2/entry/wright-development/wright-development.github.io/master/comments')">
+  <label for="comment-form-name">Name</label>
+  <input type="text" id="comment-form-name" name="fields[name]" tabindex="2" />
+  <label for="comment-form-email">Email address</label>
+  <input type="email" id="comment-form-email" name="fields[email]" tabindex="3" />
+  <label for="comment-form-location" style="display:none;">Not used. Leave blank if you are a human.</label>
+  <input type="text" id="comment-form-location" style="display:none;" name="fields[hidden]" autocomplete="off" />
+  <label for="comment-form-message">Comment</label>
+  <textarea type="text" rows="3" id="comment-form-message" name="fields[message]" tabindex="1"></textarea>
+  <input type="hidden" name="options[entryId]" value="6ed078dc523e153c01211f94046bf6ff">
+  <button type="submit" id="comment-form-submit" tabindex="5">Submit Comment</button>
+</form>
+
 
   
-  <footer>
-    <a href="https://wright-development.github.io/post/using-docker-for-net-core/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://wright-development.github.io/post/using-docker-for-net-core/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://wright-development.github.io/post/using-docker-for-net-core/">Using Docker for .NET Core Integration Testing</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
 
   
+
 </div>
 
 </div>
@@ -478,3 +624,4 @@ margin-top: 6px;
 
 </body>
 </html>
+

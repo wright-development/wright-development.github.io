@@ -1,13 +1,13 @@
 ---
 title: "API Testing In .NET with Expected.Request"
 date: 2017-10-05T19:33:35-06:00
-draft: true
+draft: false
 tags: ["dotnet", "dotnet core", "api testing", "testing", "integration testing"]
 ---
 
-Alright let's get started with the question that I'm sure you are all asking, what is Expected.Request? Simply put it's a Fluent API I've created to test REST APIs, and even better it's open source! Woot! Expected.Request abstracts away the HttpClient class in favor of clear and cohesive chaining. If you would like to see the full documentation for this package check that out [here](https://wright-development.github.io/Expected.Request/), otherwise let's jump into some examples.
+Alright, let's get started with the question that I'm sure you are all asking, what is Expected.Request? Simply put it's a Fluent API I've created to test REST APIs, and even better it's open source! Woot! Expected.Request abstracts away the HttpClient class in favor of clear and cohesive chaining. If you would like to see the full documentation for this package check that out [here](https://wright-development.github.io/Expected.Request/), otherwise let's jump into some examples.
 
-**Concidentally this post ties pretty well into my previous post about integration testing with docker in .NET, if you are interested check it out [here](/post/using-docker-for-net-core/)**
+**Coincidentally this post ties pretty well into my previous post about integration testing with docker in .NET, if you are interested check it out [here](/post/using-docker-for-net-core/)**
 
 ## Project Setup
 
@@ -19,9 +19,9 @@ Once you have downloaded the code, unzip and open the project in your favorite e
 
 ## Writing Tests
 
-Alright now that the project is all setup, let's create a few tests and see what Expected.Request buys us. We'll start with a simple get request on the ValuesController.
+Alright now that the project is all set up, let's create a few tests and put Expected.Request to work. We'll start with a simple GET request on the ValuesController.
 
-Without expected request the code will look something like this...
+Without expected request, the code will look something like this...
 
 ``` csharp
 private readonly TestServer _server;
@@ -49,8 +49,7 @@ public async Task http_client_test()
 }
 ```
 
-While this code isn't bad, it's easy to see that after a few tests there will be alot of code duplication. In addition the code code stand to be a little 
-clearer, thus enters Expected.Request.
+While this code isn't bad, it's easy to see that after a few tests there will be a lot of code duplication. In addition, the code could stand to be clearer, thus enters Expected.Request.
 
 ``` csharp
 private readonly TestServer _server;
@@ -77,13 +76,13 @@ public async Task expected_request_test()
 }
 ```
 
-With the syntax of expected request, we can now read our API test a little better.
+With the syntax of Expected.Request, we can now read our API test with ease.
 
 - Start a new Request
-- Perform a Get to the url '/api/values'
-- Next I expect the status to be ok
-- Next I want to check the content matches my expectations
-- I'm Done with the Request
+- Perform a Get to the URL '/api/values'
+- Next, expect the status to be ok
+- Next, check the content matches my expectations
+- Done with the Request
 
 Expected Request shines even more when you want to perform multiple requests, for example after a POST to an API I want to perform a GET to retrieve the object back that I posted.
 
@@ -102,4 +101,4 @@ public async Task expected_request_multiple_requests_test()
      .Done();
 }
 ```
-
+Thank you for your time, and consider using [Expected.Request](https://wright-development.github.io/Expected.Request) in your next project.

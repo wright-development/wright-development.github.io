@@ -3,13 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://wright-development.github.io/post/api-testing-in-dotnet/</loc>
+    <lastmod>2017-10-05T19:33:35-06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://wright-development.github.io/post/using-docker-for-net-core/</loc>
     <lastmod>2017-09-16T13:39:28-06:00</lastmod>
   </url>
   
   <url>
     <loc>https://wright-development.github.io/tags/api-testing/</loc>
-    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <lastmod>2017-10-05T19:33:35-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -27,19 +32,19 @@
   
   <url>
     <loc>https://wright-development.github.io/tags/dotnet/</loc>
-    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <lastmod>2017-10-05T19:33:35-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://wright-development.github.io/tags/dotnet-core/</loc>
-    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <lastmod>2017-10-05T19:33:35-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://wright-development.github.io/tags/integration-testing/</loc>
-    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <lastmod>2017-10-05T19:33:35-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -51,19 +56,19 @@
   
   <url>
     <loc>https://wright-development.github.io/post/</loc>
-    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <lastmod>2017-10-05T19:33:35-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://wright-development.github.io/tags/</loc>
-    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <lastmod>2017-10-05T19:33:35-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://wright-development.github.io/tags/testing/</loc>
-    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <lastmod>2017-10-05T19:33:35-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -80,7 +85,7 @@
   
   <url>
     <loc>https://wright-development.github.io/</loc>
-    <lastmod>2017-09-16T13:39:28-06:00</lastmod>
+    <lastmod>2017-10-05T19:33:35-06:00</lastmod>
     <priority>0</priority>
   </url>
   

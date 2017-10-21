@@ -36,6 +36,11 @@ paginate = 10
     weight = 2
     identifier = "post"
     url = "/post/"
+  [[menu.main]]
+    name = "Expected.Request"
+    weight = 3
+    identifier = "expected-request"
+    url = "https://wright-development.github.io/Expected.Request/"
 
 [social]
   github = "wright-development"
