@@ -41,9 +41,3 @@ paginate = 10
   github = "wright-development"
   linkedin = "darrius-wright"
   twitter = "develop_wright"
-
-[params.staticman]
-  endpoint = "https://api.staticman.net/v2/entry/"
-  username = "wright-development"
-  repository = "wright-development.github.io"
-  branch = "master"
